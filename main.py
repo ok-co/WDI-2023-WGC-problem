@@ -1,3 +1,4 @@
+"""Wolf, goat and cabbage problem"""
 from itertools import permutations
 
 #color metacharacters for coloring output
@@ -27,7 +28,7 @@ def is_legal(state: tuple[int]) -> bool:
 
 def move_is_possible(state1: tuple[int], state2: tuple[int]) -> bool:
     """Farmer can take up to 1 object for move from state1 to state2 to be possible"""
-    farmer_moved = (state1[0] != state2[0])
+    farmer_moved = state1[0] != state2[0]
     moved = 0
     for present1, present2 in zip(state1[1:], state2[1:]):
         moved += 1 if present1 != present2 else 0
@@ -55,27 +56,28 @@ def graph_list_to_dict(edges_list: list[tuple[int]]) -> dict:
     for edge in edges_list:
         node1, node2 = edge
         adjacency_dict.setdefault(node1, set()).add(node2)
-    
+
     return adjacency_dict
 
 def find_path(graph: dict[tuple[int]], start: tuple[int], end: tuple[int], path=[]):
-        "Finds path from start to end in given graph represented by dictioary of adjacent nodes"
-        path = path + [start]
-        if start == end:
-            return path
-        for node in graph[start]:
-            if node not in path:
-                new_path = find_path(graph, node, end, path)
-                if new_path: return new_path
+    "Finds path from start to end in given graph represented by dictioary of adjacent nodes"
+    path = path + [start]
+    if start == end:
+        return path
+    for node in graph[start]:
+        if node not in path:
+            new_path = find_path(graph, node, end, path)
+            if new_path:
+                return new_path
 
-        return (start,end,path)
+    return (start,end,path)
 
 def state_description(state: tuple[int]) -> str:
     """Returns verbal representation of state"""
     state_description_str = str()
     for present, object in zip(state, names):
         state_description_str += object + " " if present else "_" * len(object) + " "
-        
+
     return state_description_str
 
 def move_description(state1: tuple[int], state2: tuple[int]):
@@ -106,7 +108,7 @@ def path_description(path: list[tuple[int]]):
     return description
 
 def main():
-    string_states = [bin(x)[2:].zfill(4) for x in range(2**4)]      # all possible states in 4-char strings, eg. "1001" 
+    string_states = [bin(x)[2:].zfill(4) for x in range(2**4)]      # all possible states in 4-char strings, eg. "1001"
     states = [tuple(map(int, state)) for state in string_states]    # turning all string states into tuples like (1,0,0,1)
     legal_states = [state for state in states if is_legal(state) and is_legal(second_side(state))] # for state to be legal there mustn't be conflict on neither side
 
