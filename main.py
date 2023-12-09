@@ -88,12 +88,12 @@ def move_description(state1: tuple[int], state2: tuple[int]):
             break
     if not moved_object:
         moved_object = "alone"
-        direction = "right" if present1 else "left"
+        direction = "right" if state1[0] else "left"
 
     return f"↓↓↓ Farmer moves {moved_object} to {direction} ↓↓↓"
 
 def path_description(path: list[tuple[int]]):
-    """Some formatting bullshit; doesnt really matter"""
+    """One big formatting clusterfuck; doesnt really matter"""
     description = str()
     for i in range(len(path)-1):
         description += state_description(path[i]) + color_codes["BLUE"] + "∿∿∿∿∿ " + color_codes["RESET"] + state_description(second_side(path[i])) + "\n"
