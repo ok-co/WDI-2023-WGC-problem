@@ -24,6 +24,7 @@ def is_legal(state: tuple[int]) -> bool:
         state[1] == state[3] == 1   # goat and wolf present
         and state[0] == 0           # farmer not present
     )
+    # possible further conflicts
     return not any((goat_cabbage_conflict, goat_wolf_conflict)) # if neither conflict occurs state is legal
 
 def move_is_possible(state1: tuple[int], state2: tuple[int]) -> bool:
